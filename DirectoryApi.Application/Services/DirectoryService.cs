@@ -20,14 +20,11 @@ namespace DirectoryApi.Application.Services
  
         public async Task<List<Directory>> Get()
         {
-
             List<Directory> directorys = await _context.Directorys.Include(p => p.ContactInfos).ToListAsync();
 
             return directorys;
         }
-
-
-     
+   
         public async Task<DirectoryDto> Insert(DirectoryDto request)
         {
             Directory directory = _mapper.Map<Directory>(request);
@@ -36,14 +33,12 @@ namespace DirectoryApi.Application.Services
             return _mapper.Map<DirectoryDto>(directory);
         }
 
-  
         public async Task<DirectoryDto> Update(DirectoryDto request)
         {
              Directory directory = await _context.Directorys.FindAsync(request.Id);
             directory = _mapper.Map(request, directory);
 
             await _context.SaveChangesAsync();
-
             return _mapper.Map<DirectoryDto>(directory);
         }
 
@@ -51,6 +46,7 @@ namespace DirectoryApi.Application.Services
         {
             Directory directory = await _context.Directorys.FindAsync(id);
             _context.Directorys.Remove(directory);
+
             await _context.SaveChangesAsync();
             return true;
 
