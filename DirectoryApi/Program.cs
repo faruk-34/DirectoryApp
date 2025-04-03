@@ -17,6 +17,7 @@ builder.Services.AddDbContext<DirectoryDbContext>(options =>
 
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 builder.Services.AddScoped<IDirectoryService, DirectoryService>();
+builder.Services.AddScoped<IContactInfoService, ContactInfoService>();
 
 var app = builder.Build();
 
