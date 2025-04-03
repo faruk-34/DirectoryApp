@@ -17,39 +17,40 @@ namespace DirectoryApi.Application.Services
             _context = context;
             _mapper = mapper;
         }
-
-        [HttpGet]
+ 
         public async Task<List<Directory>> Get()
         {
 
-            List<Directory> directorys = await _context.Directories.Include(p => p.ContactInfos).ToListAsync();
+            List<Directory> directorys = await _context.Directorys.Include(p => p.ContactInfos).ToListAsync();
 
             return directorys;
         }
 
 
-        [HttpPost]
+     
         public async Task<DirectoryDto> Insert(DirectoryDto request)
         {
             Directory directory = _mapper.Map<Directory>(request);
-            await _context.Directories.AddAsync(directory);
+            await _context.Directorys.AddAsync(directory);
             await _context.SaveChangesAsync();
             return _mapper.Map<DirectoryDto>(directory);
         }
 
-        [HttpPut]
+  
         public async Task<DirectoryDto> Update(DirectoryDto request)
         {
-             Directory directory = await _context.Directories.FindAsync(request.Id);
+             Directory directory = await _context.Directorys.FindAsync(request.Id);
             directory = _mapper.Map(request, directory);
+
+            await _context.SaveChangesAsync();
 
             return _mapper.Map<DirectoryDto>(directory);
         }
 
         public async Task<bool> Delete(int id)
         {
-            Directory directory = await _context.Directories.FindAsync(id);
-            _context.Directories.Remove(directory);
+            Directory directory = await _context.Directorys.FindAsync(id);
+            _context.Directorys.Remove(directory);
             await _context.SaveChangesAsync();
             return true;
 

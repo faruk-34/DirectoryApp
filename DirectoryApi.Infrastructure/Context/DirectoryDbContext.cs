@@ -23,7 +23,7 @@ namespace DirectoryApi.Infrastructure.Context
             }
         }
 
-        public DbSet<Directory> Directories { get; set; }
+        public DbSet<Directory> Directorys { get; set; }
         public DbSet<ContactInfo> ContactInfos { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿ 
+﻿using Directory = DirectoryApi.Domain.Entities.Directory;
 using AutoMapper;
 using DirectoryApi.Application.Dtos;
  
@@ -9,7 +9,7 @@ namespace DirectoryApi.Application.Mapping
         public MappingProfile()
         {
            
-            CreateMap<DirectoryDto, DirectoryInfo>();
+             CreateMap<Directory, DirectoryDto>().ReverseMap();
         }
     }
 }

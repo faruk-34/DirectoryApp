@@ -1,4 +1,6 @@
+using DirectoryApi.Application.Interfaces;
 using DirectoryApi.Application.Mapping;
+using DirectoryApi.Application.Services;
 using DirectoryApi.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +16,7 @@ builder.Services.AddDbContext<DirectoryDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("WebApiDatabase")));
 
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
+builder.Services.AddScoped<IDirectoryService, DirectoryService>();
 
 var app = builder.Build();
 
