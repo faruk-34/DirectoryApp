@@ -1,4 +1,4 @@
-namespace DirectoryApi
+namespace DirectoryApi.Presentation
 {
     public class WeatherForecast
     {
