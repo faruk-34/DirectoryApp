@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DirectoryApi.Application.Dtos
+namespace ReportApi.Application.Dtos
 {
     public class ContactInfoDto
     {

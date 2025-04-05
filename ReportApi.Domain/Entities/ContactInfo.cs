@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DirectoryApi.Application.Dtos
+namespace ReportApi.Domain.Entities
 {
-    public class ContactInfoDto
+    public class ContactInfo
     {
         public int Id { get; set; }
         public string Phone { get; set; }
