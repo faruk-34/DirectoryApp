@@ -1,4 +1,5 @@
-﻿using DirectoryApi.Application.Interfaces;
+﻿using DirectoryApi.Application.Dtos;
+using DirectoryApi.Application.Interfaces;
 using DirectoryApi.Domain.Entities;
 using DirectoryApi.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,22 @@ namespace DirectoryApi.Application.Services
         {
             _context = context;
         }
+
+        public async Task<List<ContactInfoDto>> GetLocationReportDataAsync()
+        {
+            var result = await _context.ContactInfos
+          .Where(c => !string.IsNullOrEmpty(c.Location) && !string.IsNullOrEmpty(c.Phone))
+          .GroupBy(c => c.Location)
+          .Select(group => new ContactInfoDto
+          {
+              Location = group.Key,
+              PersonCount = group.Count()
+          })
+          .OrderBy(dto => dto.PersonCount)
+          .ToListAsync();
+
+            return result;
+        }
         public async Task<Directory> Insert(ContactInfo request)
         {
             await _context.ContactInfos.AddAsync(request);
@@ -23,6 +40,7 @@ namespace DirectoryApi.Application.Services
 
             return directory;
         }
+
         public async Task<Directory> Delete(int id)
         {
             ContactInfo contact = await _context.ContactInfos.FindAsync(id);

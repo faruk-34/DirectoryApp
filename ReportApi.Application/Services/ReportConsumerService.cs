@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using DirectoryApi.Domain.Entities;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -12,11 +13,13 @@ namespace ReportApi.Application.Services
     {
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly ConnectionFactory _factory;
+        private readonly HttpClient _httpClient;
 
-        public ReportConsumerService(IServiceScopeFactory scopeFactory)
+        public ReportConsumerService(IServiceScopeFactory scopeFactory, HttpClient httpClient   )
         {
             _scopeFactory = scopeFactory;
             _factory = new ConnectionFactory() { HostName = "localhost" };
+            _httpClient = httpClient;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -42,22 +45,23 @@ namespace ReportApi.Application.Services
                     if (report != null)
                     {
                         report.Status = "Hazırlanıyor";
-                        await _context.SaveChangesAsync();
+                        await _context.SaveChangesAsync(); 
 
-                        // Konum bazlı raporlama simülasyonu
-                        var reportData = new[]
+                        var apiUrl = $"http://localhost:7003/api/ContactInfo/GetLocationReport";
+
+                        var response = await _httpClient.GetAsync(apiUrl);
+                        if (response.IsSuccessStatusCode)
                         {
-                            new { Location = "İstanbul", PersonCount = 15, PhoneCount = 30 },
-                            new { Location = "Ankara", PersonCount = 8, PhoneCount = 12 }
-                        };
+                            var content = await response.Content.ReadAsStringAsync();
+                          
+                            string filePath = $"reports/{report.Id}.json";
+                            System.IO.Directory.CreateDirectory("reports");
+                            await File.WriteAllTextAsync(filePath, JsonSerializer.Serialize(content));
 
-                        string filePath = $"reports/{report.Id}.json";
-                        Directory.CreateDirectory("reports");
-                        await File.WriteAllTextAsync(filePath, JsonSerializer.Serialize(reportData));
-
-                        report.Status = "Tamamlandı";
-                        report.FilePath = filePath;
-                        await _context.SaveChangesAsync();
+                            report.Status = "Tamamlandı";
+                            report.FilePath = filePath;
+                            await _context.SaveChangesAsync();
+                        }
                     }
                 }
 

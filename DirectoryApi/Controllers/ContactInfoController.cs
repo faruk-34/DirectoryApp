@@ -1,4 +1,5 @@
-﻿using DirectoryApi.Application.Interfaces;
+﻿using DirectoryApi.Application.Dtos;
+using DirectoryApi.Application.Interfaces;
 using DirectoryApi.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Directory = DirectoryApi.Domain.Entities.Directory;
@@ -6,7 +7,7 @@ using Directory = DirectoryApi.Domain.Entities.Directory;
 
 namespace DirectoryApi.Presentation.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class ContactInfoController : ControllerBase
     {
@@ -30,6 +31,14 @@ namespace DirectoryApi.Presentation.Controllers
         {
             await _contactInfoService.Delete(id);
             return NoContent();
+        }
+
+
+        [HttpGet] // Get report data based on location
+        public async Task<IActionResult> GetLocationReport()
+        {
+            var result = await _contactInfoService.GetLocationReportDataAsync();
+            return Ok(result);
         }
     }
 }
