@@ -1,7 +1,7 @@
 
 # DirectoryApp Microservices
 
-Bu proje, birbirleriyle haberleşen iki mikroservisten (`DirectoryApi` ve `ReportApi`) oluşur. Her mikroservis ayrı katmanlara ayrılmıştır (Application, Domain, Infrastructure, Presentation). Ayrıca PostgreSQL veritabanı ve mesajlaşma altyapısı (örneğin RabbitMQ) kullanılarak mikroservisler arası iletişim sağlanır.
+Bu proje, birbirleriyle haberleşen iki mikroservisten (`DirectoryApi` ve `ReportApi`) oluşur. Her mikroservis ayrı katmanlara ayrılmıştır (Application, Domain, Infrastructure, Presentation). Ayrıca PostgreSQL veritabanı ve mesajlaşma altyapısı ( RabbitMQ) kullanılarak mikroservisler arası iletişim sağlanır.
 
 ## İçindekiler
 
